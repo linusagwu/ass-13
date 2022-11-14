@@ -30,7 +30,7 @@
 (define neo-bool-code-parser
   (lambda (neo-code)
     (if (equal? (length neo-code) 3)
-            (list 'bool-exp ( neo-code 1) (neo-parser (caddr neo-code)) '())
+            (list 'bool-exp (elementAt neo-code 1) (neo-parser (caddr neo-code)) '())
         (cons 'bool-exp (cons (cadr neo-code) (map neo-parser (cddr neo-code)))))
      )
     )
@@ -72,8 +72,10 @@
 (define neo-let-code-parser
   (lambda (neo-code)
     (list 'let-exp (elementAt neo-code 1) (neo-parser (elementAt neo-code 2)))
-    )
-  )
-                     
-  
+     (list 'let-exp
+           (map (lambda (pair) (list (car pair) (neo-parser (elementAt pair 1))))
+                (elementAt neo-code 1))
+    (neo-parser (elementAt neo-code 2)))
+    ))
+
 (provide (all-defined-out))

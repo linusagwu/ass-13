@@ -3,14 +3,14 @@
 (require "parser.rkt")
 (require "runner.rkt")
 
-(define scope '((a 1) (b 2) (c 5)))
-(define env '((global (a 0) (x 7) (z 'x))))
+;(define scope '((a 1) (b 2) (c 5)))
+(define env '((global (a 1) (b 2) (c 5))))
 ;(resolve env 'a)
 
 ;(define sample-code '(call (function (a) a) (5)))
-(define sample-code '(call (function (a) (call (function (r) a ) (a))) (5)))
+(define sample-code '(local-vars ((a 7) (b a) (x b)) (math + x a)))
 ;(define sample-code '(call (function (x y z) (math + (math + x y) z)) (2 a (math + 1 1))))
-;(display (neo-parser sample-code))
+(displayln (neo-parser sample-code))
 (define parsed-neo-code (neo-parser sample-code))
 (run-neo-parsed-code parsed-neo-code env)
 
@@ -30,4 +30,3 @@
 ;(display (push_scope_to_env '(a c d) '(5 8 11) (cons scope env)))
 
 ;(resolve_env env 'z)
-                                           
